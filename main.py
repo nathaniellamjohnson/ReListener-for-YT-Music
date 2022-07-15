@@ -1,10 +1,9 @@
 from ytmusicapi import YTMusic
 from datetime import date
 
-# requires a headers_raw.txt with raw header data to get 
+# requires a headers_raw.txt with raw header data to get
 with open('headers_raw.txt') as headers_raw_file:
     headers_raw_text = headers_raw_file.read()
-    print(headers_raw_text)
 
 YTMusic.setup(filepath='headers_auth.json', headers_raw= headers_raw_text)
 ytmusic = YTMusic('headers_auth.json')
@@ -64,8 +63,9 @@ def update_forever_playlist(video_id_list):
     for song in video_id_list:
         if song not in foreverplaylistsongids:
             valid_ids.append(song)
-    ytmusic.add_playlist_items(playlistId=foreverplaylistid, videoIds=valid_ids)
-    ytmusic.edit_playlist(description="Created by ReListener at https://github.com/nathaniellamjohnson/ReListener-for"
+    if valid_ids:
+        ytmusic.add_playlist_items(playlistId=foreverplaylistid, videoIds=valid_ids)
+        ytmusic.edit_playlist(playlistId= foreverplaylistid, description="Created by ReListener at https://github.com/nathaniellamjohnson/ReListener-for"
                                       "-YT-Music, last edited on " + clean_today_date())
     return
 
