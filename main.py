@@ -1,12 +1,26 @@
 from ytmusicapi import YTMusic
 from datetime import date
+import mgemail
+
+print ("hello")
+target_email = "<INSERT_TARGET_EMAIL_HERE>"
 
 # requires a headers_raw.txt with raw header data to get
-with open('headers_raw.txt') as headers_raw_file:
+with open('INSERT_DIRECT_PATH_TO headers_raw.txt') as headers_raw_file:
     headers_raw_text = headers_raw_file.read()
 
-YTMusic.setup(filepath='headers_auth.json', headers_raw= headers_raw_text)
-ytmusic = YTMusic('headers_auth.json')
+try:
+    YTMusic.setup(filepath='headers_auth.json', headers_raw= headers_raw_text)
+    ytmusic = YTMusic('headers_auth.json')
+except Exception:
+    #Problem with authentication
+    mgemail.send_email(target_email, "ReListener Playlist Update Failed", "Problem with authentication, please check "
+                                                                        "headers_raw.txt and get new headers as "
+                                                                        "according to "
+                                                                        "https://github.com/sigma67/ytmusicapi "
+                                                                        "\n\n\n- Nathaniel From ReListener" )
+    quit(1)
+
 
 
 def get_section_of_home(home_list, sec_name):
@@ -50,7 +64,7 @@ def update_forever_playlist(video_id_list):
                                                                 "https://github.com/nathaniellamjohnson/ReListener"
                                                                 "-for-YT-Music, last edited on " + clean_today_date(),
                                                     video_ids=videoIdList)
-        return
+        return foreverplaylistid
 
     # If forever playlist is present
     # take song ids, check against song ids of forever playlist, remove duplicates
@@ -67,7 +81,7 @@ def update_forever_playlist(video_id_list):
         ytmusic.add_playlist_items(playlistId=foreverplaylistid, videoIds=valid_ids)
         ytmusic.edit_playlist(playlistId= foreverplaylistid, description="Created by ReListener at https://github.com/nathaniellamjohnson/ReListener-for"
                                       "-YT-Music, last edited on " + clean_today_date())
-    return
+    return foreverplaylistid
 
 
 if __name__ == '__main__':
@@ -82,4 +96,5 @@ if __name__ == '__main__':
                                                               "-YT-Music on " + clean_today_date(),
                                                   video_ids=videoIdList)
 
-    update_forever_playlist(videoIdList)
+    foreverplaylistid = update_forever_playlist(videoIdList)
+    mgemail.send_email(target_email, "ReListener Playlist Update Success", "See the weekly playlist here: https://music.youtube.com/playlist?list=" + newWeeklyPlaylistID + "\n \n See the updated forever playlist here: https://music.youtube.com/playlist?list=" + foreverplaylistid + "\n\n\n- Nathaniel From ReListener"  )
