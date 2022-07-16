@@ -15,6 +15,13 @@ Python Script meant to be automated using cronjob that creates a weekly and runn
 - Python 3.6 or higher - [https://www.python.org](https://www.python.org)
 - Mailgun Domain (required for emailing)
 
+## Technologies Used
+
+- Python
+	- [ytmusicapi](https://github.com/sigma67/ytmusicapi)
+- Mailgun API
+- Cron
+
 ## Contributing
 
 Pull requests are welcome. There are some features that could be implemented, but I'm happy with the current version. 
