@@ -5,10 +5,13 @@ Python Script meant to be automated using cronjob that creates a weekly and runn
 1. ReListener requires a *headers_raw.txt* for the [main.py](https://github.com/nathaniellamjohnson/ReListener-for-YT-Music/blob/main/main.py) to function. Paste in your headers that you get from [the ytmusicapi copy authentication headers](https://ytmusicapi.readthedocs.io/en/latest/setup.html#copy-authentication-headers) section in *headers_raw.txt* and edit the 'with open()' in  [main.py](https://github.com/nathaniellamjohnson/ReListener-for-YT-Music/blob/main/main.py) with the path. 
 2. If you want email to be sent via the [Mailgun API](https://www.mailgun.com/), edit the [main.py](https://github.com/nathaniellamjohnson/ReListener-for-YT-Music/blob/main/main.py) variable `target_email` to the email of your choice and edit the [mgemail.py](https://github.com/nathaniellamjohnson/ReListener-for-YT-Music/blob/main/mgemail.py) with your appropriate API key, domain, and email.
 	-  If not, feel free to delete the email parts as they are not essential to playlist creation.
-3. To automate ReListener using crontab, 
-	1. Open crontab file in your terminal using `crontab -e`
-	2. Add a line in the format `[cron schedule expression] [direct path to python interpreter] [direct path to main.py]`
+3. To automate ReListener to run every week...... (MacOS Instructions)
+	1. Using crontab (not recommended because cronjobs will fail if your machine is in sleep)
+		1. Open crontab file in your terminal using `crontab -e`
+		2. Add a line in the format `[cron schedule expression] [direct path to python interpreter] [direct path to main.py]`
 		- For help with cron schedule expressions, visit [https://crontab.guru/](https://crontab.guru/)
+	2. Using launchd (recommended because will run jobs after waking)
+		1. I'm lazy, so use this link by Apple [to schedule a timed job](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html). Alternatively, you can message me and I can show you what my launch agent XML file looks like.
 
 # Requirements
 
@@ -20,18 +23,9 @@ Python Script meant to be automated using cronjob that creates a weekly and runn
 - Python
 	- [ytmusicapi](https://github.com/sigma67/ytmusicapi)
 - Mailgun API
-- Cron
+- Cron / LaunchD
 
 ## Contributing
 
 Pull requests are welcome. There are some features that could be implemented, but I'm happy with the current version. 
-
-
-
-
-
-
-
-
-
 
